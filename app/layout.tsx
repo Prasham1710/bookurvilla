@@ -1,6 +1,6 @@
 
 import { Nunito } from 'next/font/google'
-
+import 'tailwindcss/tailwind.css'
 const inter = Nunito({ subsets: ['latin'] })
 
 export const metadata = {

@@ -1,10 +1,8 @@
 
-
 export default function Home() {
   return (
-   <div>
-    Hello
-    </div>
-    
+    <h1 className="text-3xl bg-red-700 ">
+      Hello world!
+    </h1>
   )
 }

@@ -9,7 +9,8 @@ const Avatar = () => {
     alt="Avatar"
     className="rounded-full"
     height={40}
-    width={40} />
+    width={40} />                                           
+    
   )
 }
 

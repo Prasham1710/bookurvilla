@@ -1,8 +1,19 @@
-
-const Button = () => {
+interface ButtonProps {
+    label: string;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    disabled?: boolean;
+    outline?: boolean;
+    small?: boolean;
+    icon?: boolean;
+}
+const Button: React.FC<ButtonProps> = (
+    {
+        label,onClick,disabled,outline,small,icon
+    }
+) => {
   return (
     
-    <div>Button</div>
+    <button>{label}</button>
   )
 }
 

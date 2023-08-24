@@ -75,9 +75,9 @@ const Modal:React.FC<ModalProps> = ({
           focus:outline-none
           bg-neutral-800/70 
         "
-      >t
+      >
          <div className="relative w-full md:w-4/6 lg:w-3/6 xl:w-2/5 my-6 mx-auto h-full lg:h-auto  md:h-auto"
-        >t
+        >
         <div className={`
             translate
             duration-300
@@ -122,6 +122,7 @@ const Modal:React.FC<ModalProps> = ({
                         disabled={disabled}
                         onClick={handleSubmit}/>
                     </div>
+                    {footer}
                 </div>
             </div>
           </div>

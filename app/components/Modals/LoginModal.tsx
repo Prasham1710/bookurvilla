@@ -47,6 +47,10 @@ const LoginModal = () => {
                }
             })
     }
+    const toggle = useCallback(() => {
+      loginModal.onClose();
+      registerModal.onOpen();
+    },[loginModal,registerModal])
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading title='Welcome Back ' subtitle='Login to your account'/>
@@ -72,27 +76,21 @@ const LoginModal = () => {
             onClick={() => signIn('google')}/>
             <Button outline label='Continue with Github' icon={AiFillGithub} 
             onClick={() => signIn('github')}/>
-             <div 
-        className="
-          text-neutral-500 
-          text-center 
-          mt-4 
-          font-light
-        "
-      >
-        <div>Already have an account?</div>
-        
-          <div
-          onClick={registerModal.onClose}
+            <div className="
+      text-neutral-500 text-center mt-4 font-light">
+        <p>First time using Airbnb?
+          <span 
+            onClick={toggle} 
             className="
               text-neutral-800
               cursor-pointer 
               hover:underline
-            "> Log in
-          </div>
-        </div>
-        </div>
-    )
+            "
+            > Create an account</span>
+        </p>
+      </div>
+    </div>
+  )
  return (
     <Modal
       disabled={isLoading}

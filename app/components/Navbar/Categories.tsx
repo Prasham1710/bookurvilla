@@ -1,6 +1,6 @@
 "use client";
-import { TbBeach, TbMountain, TbPool } from 'react-icons/tb';
 import Container from "../Container";
+import { TbBeach, TbMountain, TbPool } from 'react-icons/tb';
 import { 
   GiBarn, 
   GiBoatFishing, 

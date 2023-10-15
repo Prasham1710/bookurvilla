@@ -23,10 +23,45 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <CldUploadWidget
     onUpload={handleUpload}
-    uploadPreset=""
+    uploadPreset="v6tviuhl"
     options={{
         maxFiles: 1,
     }}>
+        {({open}) => {
+            return (
+                <div
+                className='relative
+              cursor-pointer
+              hover:opacity-70
+              transition
+              border-dashed 
+              border-2 
+              p-20 
+              border-neutral-300
+              flex
+              flex-col
+              justify-center
+              items-center
+              gap-4
+              text-neutral-600'
+                onClick={() => open?.()}>
+                 <TbPhotoPlus size={50}/>
+                 <div className="font-semibold text-lg">
+                    CLick to upload
+                 </div>
+                 {value && (
+                    <div className="absolute inset-0 w-full h-full">
+                        <Image 
+                        src={value} 
+                        fill 
+                        style={{objectFit: 'cover'}}
+                        alt="Upload"
+                        />
+                        </div>
+                        )}
+                </div>
+                )
+        }}
     </CldUploadWidget>
   );
 }

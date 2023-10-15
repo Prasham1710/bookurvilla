@@ -53,6 +53,7 @@ const RentModal = () => {
   const guestCount = watch('guestCount');
   const roomCount = watch('roomCount');
   const bathroomCount = watch('bathroomCount');
+  const imageSrc = watch('imageSrc');
     const Map = useMemo(() => dynamic(()=> import(('../Map')), {ssr: false}), [location])
     const setCustomValue = (id: string, value: any) => {
       setValue(id, value,{
@@ -152,7 +153,10 @@ const RentModal = () => {
           title="Upload some photos"
           subtitle="Showcase your place to guests"
           />
-          <ImageUpload/>
+          <ImageUpload
+          value={imageSrc}
+          onChange={(value) => setCustomValue('imageSrc',value)}
+          />
           </div>
     )
   }

@@ -9,6 +9,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 import CountrySelect from '../Inputs/CountrySelect'
 import dynamic from 'next/dynamic'
 import Counter from '../Inputs/Counter'
+import ImageUpload from '../Inputs/ImageUpload'
 
  enum STEPS{
   CATEGORY =0 ,
@@ -24,29 +25,34 @@ const RentModal = () => {
 
     const [step, setStep] = useState(STEPS.CATEGORY); 
 
-    const {
-      register,
-      handleSubmit,
-      setValue,
-      watch,
-      formState: { errors, },
-      reset,
-    } = useForm<FieldValues>({
-      defaultValues: {  
-        category: '',
-        location: null,
-        guestCount: 1,
-        roomCount: 1,
-        bathroomCount: 1,
-        imageSrc: '',
-        price: 1,
-        title: '',  
-        description : '',
-      }
-    })
-    const category = watch('category');
-    const location = watch('location');
+    const { 
+    register, 
+    handleSubmit,
+    setValue,
+    watch,
+    formState: {
+      errors,
+    },
+    reset,
+  } = useForm<FieldValues>({
+    defaultValues: {
+      category: '',
+      location: null,
+      guestCount: 1,
+      roomCount: 1,
+      bathroomCount: 1,
+      imageSrc: '',
+      price: 1,
+      title: '',
+      description: '',
+    }
+  });
 
+  const location = watch('location');
+  const category = watch('category');
+  const guestCount = watch('guestCount');
+  const roomCount = watch('roomCount');
+  const bathroomCount = watch('bathroomCount');
     const Map = useMemo(() => dynamic(()=> import(('../Map')), {ssr: false}), [location])
     const setCustomValue = (id: string, value: any) => {
       setValue(id, value,{
@@ -121,9 +127,33 @@ const RentModal = () => {
         <Heading
           title="Share some basics about your place"
           subtitle='what amenities do you have'/>
-          <Counter title='Number of guests' 
-                    subtitle='how many guests '/>
+          <Counter title='Guests' 
+                    subtitle='how many guests do you allow '
+                    value={guestCount}
+                    onChange={(value) => setCustomValue('guestCount',value)}/>
+          <hr/>
+          <Counter title='Rooms' 
+                    subtitle='how many rooms do you have '
+                    value={roomCount}
+                    onChange={(value) => setCustomValue('roomCount',value)}/>
+          <hr/>
+          <Counter title='bathrooms' 
+                    subtitle='how many bathrooms do  you have? '
+                    value={bathroomCount}
+                    onChange={(value) => setCustomValue('bathroomCount',value)}/>
+          
       </div>
+    )
+  }
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title="Upload some photos"
+          subtitle="Showcase your place to guests"
+          />
+          <ImageUpload/>
+          </div>
     )
   }
   return (

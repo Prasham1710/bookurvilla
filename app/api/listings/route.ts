@@ -36,9 +36,9 @@ export async function POST(request:Request) {
       bathroomCount,
       guestCount,
       locationValue: location.value,
-      price : parseInt(price, 10),
-      userId: currentUser.id,
+      price: parseInt(price, 10),
+      userId: currentUser.id
     }
-    })   
+  });
     return NextResponse.json(listing)
 }

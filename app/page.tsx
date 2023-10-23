@@ -9,17 +9,21 @@ export default async function Home() {
  
   const listings = await getListings();
   const currentUser = await getCurrentUser();
+
   if (listings.length === 0) {
-     return (
+    return (
       <ClientOnly>
         <EmptyState showReset />
       </ClientOnly>
-     )
+    );
   }
+
   return (
     <ClientOnly>
       <Container>
-        <div className="pt-24
+        <div 
+          className="
+            pt-24
             grid 
             grid-cols-1 
             sm:grid-cols-2 
@@ -27,18 +31,17 @@ export default async function Home() {
             lg:grid-cols-4
             xl:grid-cols-5
             2xl:grid-cols-6
-            gap-8">
-
-              {listings.map((listing) => {
-                return (
-                  <ListingsCard
-                    key= {listing.id}
-                    data = {listing}
-                    />
-                )
-                })}
-              
-            </div>
+            gap-8
+          "
+        >
+          {listings.map((listing: any) => (
+            <ListingsCard
+              currentUser={currentUser}
+              key={listing.id}
+              data={listing}
+            />
+          ))}
+        </div>
       </Container>
     </ClientOnly>
   )

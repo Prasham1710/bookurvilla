@@ -1,12 +1,13 @@
 'use client'
 import Container from '@/app/components/Container';
-import { categories } from '@/app/components/Navbar/Categories';
+
 import { SafeListing, SafeUser } from '@/app/types';
 import {Reservation} from '@prisma/client';
 import { useMemo } from 'react';
 import ListingHead from '../../components/listings/ListingHead';
 import ListingInfo from '../../components/listings/ListingInfo';
 import useLoginModal from '@/app/hooks/useLoginModel';
+import { categories } from '@/app/components/Navbar/Categories';
 
 interface ListingClientProps {
     reservations?: Reservation[];
@@ -19,9 +20,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
     listing,currentUser,reservations=[]
 }) => {
     const category = useMemo(() => {
-        const loginModal = useLoginModal();
-        return categories
-    },[])
+     return categories.find((items) => 
+      items.label === listing.category);
+  }, [listing.category]);
   return (
      <Container>
       <div 
@@ -70,7 +71,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         </div>
       </div>
     </Container>
-  )
+   );
 }
-
-export default ListingClient
+ 
+export default ListingClient;

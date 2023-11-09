@@ -1,8 +1,8 @@
 'use client'
 import Container from '@/app/components/Container';
 
-import { SafeListing, SafeUser } from '@/app/types';
-import {Reservation} from '@prisma/client';
+import { SafeListing, SafeUser, SafeReservation } from '@/app/types';
+
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import ListingHead from '../../components/listings/ListingHead';
 import ListingInfo from '../../components/listings/ListingInfo';
@@ -14,18 +14,20 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import ListingReservation from '@/app/components/listings/ListingReservation';
 
-const initialDateRange ={
+const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
-  key: 'selection',
-}
+  key: 'selection'
+};
+
 interface ListingClientProps {
-    reservations?: Reservation[];
-    listing: SafeListing & {
-         user: SafeUser;
+  reservations?: SafeReservation[];
+  listing: SafeListing & {
+    user: SafeUser;
+  };
+  currentUser?: SafeUser | null;
 }
-    currentUser?: SafeUser | null;
-}
+
 const ListingClient: React.FC<ListingClientProps> = ({
     listing,currentUser,reservations=[]
 }) => {
@@ -73,7 +75,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
           router.refresh();
       })
       .catch(() => {
-        toast.error('Something went wrong');
+        toast.error('Something went wrong.');
       })
       .finally(() => {
         setIsLoading(false);

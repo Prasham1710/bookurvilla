@@ -59,17 +59,20 @@ const TripsClient: React.FC<TripsClientProps> = ({
         "
       >
         {reservations.map((reservation: any) => (
-                    <ListingCard
-                    key={reservation.id}
-                    data={reservation.listing}
-                    reservation={reservation}
-                    onAction={onCancel}
-                    disabled={deletingId=== reservation.id}
-                    actionLabel="Cancel reservation" 
-                    currentUser={currentUser}/>
-                ))}
-            </div>
-       </Container> 
-    );
+          <ListingCard
+            key={reservation.id}
+            data={reservation.listing}
+            reservation={reservation}
+            actionId={reservation.id}
+            onAction={onCancel}
+            disabled={deletingId === reservation.id}
+            actionLabel="Cancel reservation"
+            currentUser={currentUser}
+          />
+        ))}
+      </div>
+    </Container>
+   );
 }
+ 
 export default TripsClient;

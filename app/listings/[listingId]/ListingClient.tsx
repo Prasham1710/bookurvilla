@@ -1,18 +1,21 @@
-'use client'
-import Container from '@/app/components/Container';
+'use client';
 
-import { SafeListing, SafeUser, SafeReservation } from '@/app/types';
+import axios from "axios";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
+import { Range } from "react-date-range";
+import { useRouter } from "next/navigation";
+import { differenceInDays, eachDayOfInterval } from 'date-fns';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import ListingHead from '../../components/listings/ListingHead';
-import ListingInfo from '../../components/listings/ListingInfo';
-import useLoginModal from '@/app/hooks/useLoginModel';
-import { categories } from '@/app/components/Navbar/Categories';
-import { useRouter } from 'next/navigation';
-import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import ListingReservation from '@/app/components/listings/ListingReservation';
+import useLoginModal from "@/app/hooks//useLoginModel";
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
+
+import Container from "@/app/components/Container";
+
+import ListingHead from "@/app/components/listings/ListingHead";
+import ListingInfo from "@/app/components/listings/ListingInfo";
+import ListingReservation from "@/app/components/listings/ListingReservation";
+import { categories } from "@/app/components/Navbar/Categories";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -29,9 +32,11 @@ interface ListingClientProps {
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
-    listing,currentUser,reservations=[]
+  listing,
+  reservations = [],
+  currentUser
 }) => {
-    const loginModal = useLoginModal();
+  const loginModal = useLoginModal();
   const router = useRouter();
 
   const disabledDates = useMemo(() => {
@@ -54,51 +59,60 @@ const ListingClient: React.FC<ListingClientProps> = ({
       items.label === listing.category);
   }, [listing.category]);
 
-    
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange,setDateRange] = useState(initialDateRange)
-    const onCreateReservation = useCallback(() => {
-      if(!currentUser){
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+
+  const onCreateReservation = useCallback(() => {
+      if (!currentUser) {
         return loginModal.onOpen();
       }
       setIsLoading(true);
+
       axios.post('/api/reservations', {
+        totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
-        listingId: listing.id,
-        totalPrice
+        listingId: listing?.id
       })
       .then(() => {
-          toast.success('Reservation created successfully');
-          setDateRange(initialDateRange);
-          router.push('/trips')
+        toast.success('Listing reserved!');
+        setDateRange(initialDateRange);
+        router.push('/trips');
       })
       .catch(() => {
         toast.error('Something went wrong.');
       })
       .finally(() => {
         setIsLoading(false);
-      });
-      },[totalPrice, dateRange, listing.id, currentUser, router, loginModal]);
+      })
+  },
+  [
+    totalPrice, 
+    dateRange, 
+    listing?.id,
+    router,
+    currentUser,
+    loginModal
+  ]);
 
-      useEffect(() => {
-        if (dateRange.startDate && dateRange.endDate) {
-          const dayCount = differenceInCalendarDays(
-            dateRange.endDate,
-            dateRange.startDate
-          );
-          if (dayCount && listing.price ) {
-            setTotalPrice(dayCount * listing.price);
-          }
-          else {
-            setTotalPrice(listing.price);
-          }
-        }
-      },[dateRange, listing.price])
-    
-  return (
-     <Container>
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      const dayCount = differenceInDays(
+        dateRange.endDate, 
+        dateRange.startDate
+      );
+      
+      if (dayCount && listing.price) {
+        setTotalPrice(dayCount * listing.price);
+      } else {
+        setTotalPrice(listing.price);
+      }
+    }
+  }, [dateRange, listing.price]);
+
+  return ( 
+    <Container>
       <div 
         className="
           max-w-screen-lg 

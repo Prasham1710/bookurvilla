@@ -1,23 +1,29 @@
-'use client'
-import useCountries from '@/app/hooks/useCountries';
+'use client';
+
 import Select from 'react-select'
 
+import useCountries from '@/app/hooks/useCountries';
+
 export type CountrySelectValue = {
-    flag: string;
-    label: string;
-    latlng : number;
-    region: string;
-    value: string;
+  flag: string;
+  label: string;
+  latlng: number[],
+  region: string;
+  value: string
 }
+
 interface CountrySelectProps {
-    value?: CountrySelectValue;
-    onChange: (value: CountrySelectValue) => void;
+  value?: CountrySelectValue;
+  onChange: (value: CountrySelectValue) => void;
 }
+
 const CountrySelect: React.FC<CountrySelectProps> = ({
-    value,onChange
+  value,
+  onChange
 }) => {
-    const {getAll} = useCountries();
-  return (
+  const { getAll } = useCountries();
+
+  return ( 
     <div>
       <Select
         placeholder="Anywhere"
@@ -37,7 +43,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
             </div>
           </div>
         )}
-    classNames={{
+        classNames={{
           control: () => 'p-3 border-2',
           input: () => 'text-lg',
           option: () => 'text-lg'
@@ -51,9 +57,9 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
             primary25: '#ffe4e6'
           }
         })}
-    /> 
+      />
     </div>
-  )
+   );
 }
-
+ 
 export default CountrySelect;

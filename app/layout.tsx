@@ -8,6 +8,8 @@ import RentModal from './components/Modals/RentModal';
 import ToasterProvider from './providers/ToasterProvider';
 ;
 import getCurrentUser from './actions/getCurrentUser';
+import Search from './components/Navbar/Search'
+import SearchModal from './components/Modals/SearchModal'
 
 
 const inter = Nunito({ subsets: ['latin'] })
@@ -34,6 +36,7 @@ export default async function RootLayout({
         <ClientOnly>
           <ToasterProvider />
           <RentModal />
+          <SearchModal />
           <RegisterModal />
           <LoginModal />
           <Navbar currentUser={currentUser}  />
